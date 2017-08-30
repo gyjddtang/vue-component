@@ -8,6 +8,7 @@ import Index from './views/Index'
 import Clip from './views/Clip'
 import Canvas from './views/Canvas'
 import Popover from './views/Popover'
+import ImgView from './views/ImgView'
 
 Vue.use(Router)
 
@@ -29,6 +30,10 @@ export default new Router({
       path: '/popover',
       name: 'Popover',
       component: Popover
+    }, {
+      path: '/imgview',
+      name: 'ImgView',
+      component: ImgView
     }
   ]
 })
