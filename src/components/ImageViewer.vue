@@ -7,10 +7,8 @@
     <div class="imageViewer">
       <div v-if="items.length > 1" class="switchBt" @click="prev"><em></em></div>
       <ul class="swiper" ref="swiper">
-        <li v-for="(item, index) of items" :style="{left: item.left + 'px'}">
-          <img :src="item.url" alt="" style="max-width: 100%">
-          <p>{{ item.left }}</p>
-          <p>{{ item.flag }}</p>
+        <li v-for="(item, index) of items" :style="{left: item.left + 'px', background: item.loading ? 'transparent' : `url(${item.url})`, opacity: item.opacity}">
+          <div v-if="item.loading" class="loading"></div>
         </li>
       </ul>
       <div v-if="items.length > 1" class="switchBt" @click="next"><em></em></div>
@@ -49,16 +47,29 @@
             this.swiperW = this.$refs.swiper.offsetWidth
             this.initItems()
           }, 50)
+        } else {
+          this.items = []
         }
       }
     },
     methods: {
       initItems () {
+        // 优先加载 initCurrent 图片
+        let img = new Image()
+        img.src = this.url[this.initCurrent - 1]
+
         this.url.map((ele, index) => {
           let _temp = {}
-          _temp.url = ele
           _temp.left = (index + 1 - this.initCurrent) * this.swiperW
           _temp.flag = index + 1
+          _temp.opacity = 1
+          _temp.loading = true
+          let _img = new Image()
+          _img.src = ele
+          _img.onload = function () {
+            _temp.url = ele
+            _temp.loading = false
+          }
           this.items.push(_temp)
         })
         // items长度为 1或2
@@ -104,6 +115,10 @@
         this.items.map(ele => {
           if (ele.left === lastVal) {
             ele.left -= step   // 最后一位移至第一位
+            ele.opacity = 0   // 隐藏移动中的最后一位
+            setTimeout(() => {
+              ele.opacity = 1
+            }, 300)
           } else {
             ele.left += w   // 其余项右移一位
           }
@@ -124,8 +139,12 @@
           firstVal = (1 - n) * w
         }
         this.items.map(ele => {
-          if (ele.left === firstVal) {   // 第一位移至最后一位
-            ele.left += step
+          if (ele.left === firstVal) {
+            ele.left += step   // 第一位移至最后一位
+            ele.opacity = 0   // 隐藏移动中的第一位
+            setTimeout(() => {
+              ele.opacity = 1
+            }, 300)
           } else {
             ele.left -= w   // 其余项左移一位
           }
@@ -177,21 +196,35 @@
   }
 
   .imageViewer .swiper {
-    width: calc(100% - 212px);
+    width: calc(100% - 232px);
     height: calc(100% - 80px);
-    background: #fff;
-    margin: 40px;
+    margin: 40px 50px;
     position: relative;
-    /*overflow: hidden;*/
+    overflow: hidden;
   }
 
   .imageViewer .swiper li {
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    background-position: center center !important;
     list-style: none;
     width: 100%;
     height: 100%;
-    transition: all .3s ease-in-out;
+    transition: left .3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 0;
+  }
+
+  .imageViewer .swiper li .loading {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #fff transparent;
+    animation: loading 1s infinite;
   }
 
   .imageViewer .switchBt {
@@ -278,5 +311,11 @@
   .imageViewerMask .closeBt:hover em,
   .imageViewerMask .closeBt:hover em::after {
     background: #20a0ff;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: rotate(360deg);
+    }
   }
 </style>
