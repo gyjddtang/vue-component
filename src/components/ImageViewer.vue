@@ -46,7 +46,7 @@
           setTimeout(() => {
             this.swiperW = this.$refs.swiper.offsetWidth
             this.initItems()
-          }, 50)
+          }, 80)
         } else {
           this.items = []
         }
