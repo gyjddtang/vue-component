@@ -43,24 +43,24 @@
     },
     data () {
       return {
-        sliderPre: 0,
-        sliderPos: 0,
-        sliderStartX: 0,
+        sliderPre: 0,   // slider百分比
+        sliderPos: 0,   // slider滑动到的新位置
+        sliderStartX: 0,   // slider开始滑动的位置
         sliderMaxX: 480,
         sliderDragging: false,
-        imgStartXY: {
+        imgStartXY: {   // img开始移动的位置
           x: 0,
           y: 0
         },
-        imgLastXY: {
+        imgLastXY: {   // img停止移动时的位置
           x: 0,
           y: 0
         },
-        imgNewXY: {
+        imgNewXY: {   // img移动到的新位置
           x: 0,
           y: 0
         },
-        clipSize: 360
+        clipSize: 360   // 裁剪尺寸
       }
     },
     computed: {
@@ -79,7 +79,7 @@
 
       imgSourceStyle: function () {
         return {
-          transform: `translate(${this.imgNewXY.x}px, ${this.imgNewXY.y}px) scale(${this.sliderPre + 0.5})`
+          transform: `translate(${this.imgNewXY.x}px, ${this.imgNewXY.y}px) scale(${parseFloat(this.sliderPre) + 0.5})`
         }
       }
     },
@@ -233,12 +233,13 @@
     height: 400px;
     overflow: hidden;
     background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     cursor: grab;
     user-select: none;
     position: relative;
+    overflow: hidden;
   }
 
   .imgSourceBox canvas:first-of-type {
