@@ -9,7 +9,6 @@ import Clip from './views/Clip'
 import Canvas from './views/Canvas'
 import Popover from './views/Popover'
 import ImgView from './views/ImgView'
-import Menu from './views/Menu'
 
 Vue.use(Router)
 
@@ -35,10 +34,6 @@ export default new Router({
       path: '/imgview',
       name: 'ImgView',
       component: ImgView
-    }, {
-      path: '/menu',
-      name: 'Menu',
-      component: Menu
     }
   ]
 })

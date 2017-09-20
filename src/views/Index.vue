@@ -10,7 +10,6 @@
     <router-link to="canvas">canvas</router-link>
     <router-link to="popover">popConfirm</router-link>
     <router-link to="imgview">imgView</router-link>
-    <router-link to="menu">menu</router-link>
   </div>
 </template>
 
