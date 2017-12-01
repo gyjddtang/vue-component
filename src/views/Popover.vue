@@ -5,27 +5,27 @@
 <template lang="html">
   <ul>
     <li v-for="n in 6">
-      <popConfirm
+      <Popover
         title="提示"
         content="确定删除此条数据吗？"
-        trigger="confirm"
-        placement="top-end"
+        trigger="click"
+        placement="right-start"
         popClass="pop"
         @ok="delComfirm"
       >
         <a href="javascript:;" class="deleteBt" slot="reference">删除</a>
-      </popConfirm>
+      </Popover>
     </li>
   </ul>
 </template>
 
 <script>
-  import popConfirm from '../components/PopConfirm'
+  import Popover from '../components/Popover'
 
   export default {
     name: 'popover',
     components: {
-      popConfirm
+      Popover
     },
     methods: {
       delComfirm () {
@@ -44,15 +44,16 @@
     list-style: none;
     margin-bottom: 10px;
     height: 30px;
+    width: 40px;
   }
 
   li .pop {
-    float: right;
-    margin-right: 50%;
+    /*float: right;*/
+    /*margin-right: 50%;*/
   }
 
   li .pop .image {
-    width: 500px;
+    width: 800px;
     display: block;
   }
 
